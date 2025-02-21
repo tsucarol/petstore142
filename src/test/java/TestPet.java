@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 public class TestPet {
     /* 2.1 - Atributos */ 
     static String ct = "application/json"; // CT = Content Type
-    static String uriUser = "https://petstore.swagger.io/v2/user";
+    static String uriPet = "https://petstore.swagger.io/v2/pet";
 
     /* 2.2 - Funções e Métodos */ 
     
