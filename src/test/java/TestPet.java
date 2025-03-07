@@ -19,6 +19,8 @@ public class TestPet {
     /* 2.1 - Atributos */ 
     static String ct = "application/json"; // CT = Content Type
     static String uriPet = "https://petstore.swagger.io/v2/pet";
+    static int petId = 502670901; // Código esperado do pet
+
 
     /* 2.2 - Funções e Métodos */ 
     /* 2.2.1 funções e métodos comuns / úteis */
@@ -33,7 +35,6 @@ public class TestPet {
         /* CONFIGURA */
         /* Carregar os dados do arquivo json do pet */
         String jsonBody = lerArquivoJson("src/test/resources/json/pet1.json");
-        int petId = 502670901; // Código esperado do pet
 
         /* Começa o teste via REST-assured */
         given()                                         // DADO que
@@ -53,7 +54,35 @@ public class TestPet {
             .body("id", is(petId))                      // verifique o código do pet
             .body("category.name", is("cachorro"))      // verifique se é cachorro
             .body("tags[0].name", is("vacinado"))       // verifique se está vacinado
-        ; // fim do given
+        ; // fim do given (é uma linha só)
     }                                                                   
 
+    @Test
+    public void testGetPet() {
+        /* CONFIGURA */
+        // entrada - petId que está definido no nível da classe
+        // saídas / resultados esperados
+        String petName = "Snoopy";
+        String categoryName = "cachorro";
+        String tagName = "vacinado";
+
+        given()
+            .contentType(ct)
+            .log().all()
+            // quando é GET ou DELETE, não tem body
+        
+        /* EXECUTA */
+        .when()
+            .get(uriPet + "/" + petId) //endpoint URI/<petId>
+        
+        /* VALIDA */
+        .then()
+            .log().all()
+            .statusCode(200)
+            .body("name", is("Snoopy"))                 // verifique se o nome é Snoopy
+            .body("id", is(petId))                      // verifique o código do pet
+            .body("category.name", is("cachorro"))      // verifique se é cachorro
+            .body("tags[0].name", is("vacinado"))       // verifique se está vacinado
+        ; // fim do given (é uma linha só)
+    }
 }
